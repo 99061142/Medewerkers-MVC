@@ -34,6 +34,7 @@
        return $result;
     }
 
+
     function getEmployee($id){
         try {
             // Open de verbinding met de database
@@ -56,7 +57,6 @@
      
         }
         catch(PDOException $e){
-
             echo "Connection failed: " . $e->getMessage();
         }
         // Maak de database verbinding leeg. Dit zorgt ervoor dat het geheugen
@@ -67,10 +67,48 @@
         return $result;
      }
 
+
+
+
     function createEmployee($data){
         // Maak hier de code om een medewerker toe te voegen
+        var_dump($data);
 
+
+
+
+        if(strlen($data["name"]) > 10 || !$data["name"]){
+            $data["name"] = "[name]";
+        }
+
+
+        if(strlen($data["age"]) > 3 || !$data["age"]){
+            $data["age"] = "[age]";
+        }
+
+
+
+
+        try {
+            $conn=openDatabaseConnection();
+
+            // Add a new game in the planning, with the information the user has given
+            $stmt = $conn->prepare("INSERT INTO employees (name, age) VALUES (:name, :age)");
+
+            // Update the values that are send with it
+            $stmt->bindParam(":name", $data["name"]);
+            $stmt->bindParam(":age", $data["age"]);
+
+
+            $stmt->execute();
+            header("location:" . URL);
+        }catch(PDOException $e){ 
+            echo "Connection failed: " . $e->getMessage();
+        }
+        $connection = null; 
      }
+
+
 
 
      function updateEmployee($data){
@@ -126,7 +164,18 @@
     }
 
 
+
+
     function deleteEmployee($id){
         // Maak hier de code om een medewerker te verwijderen
+        $conn=openDatabaseConnection();
+        
+        //1. Delete een medewerker uit de database
+        $query = $conn->prepare("DELETE FROM employees WHERE id= :id");
+        $query->bindParam(":id", $id);
+        $query->execute(); 
+
+        //2. Bouw een url en redirect hierheen
+        header("location:" . URL);
     }
 ?>

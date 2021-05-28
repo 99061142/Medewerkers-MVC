@@ -10,9 +10,9 @@
 	}
 ?>
 	
-	
+
 <h1>Weet u zeker dat u <?= $data["name"] ?> wilt verwijderen?</h1>
-<form name="update" method="post">
+<form name="delete" method="post">
 	<input type="submit" name="delete" value="ja">
 	<input type="submit" name="back" value="nee">
 </form>

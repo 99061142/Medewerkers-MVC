@@ -15,7 +15,7 @@
 <div id="container">
 <nav>
 	<ul>
-		<li><a href="<?=URL?>employee/index"><i class="fas fa-users"></i></a></li>
-		<li><a href="<?=URL?>employee/create"><i class="fas fa-user-plus"></i></a></li>
+		<li><a href="<?= URL ?>"><i class="fas fa-users"></i></a></li>
+		<li><a href="<?= URL ?>employee/create"><i class="fas fa-user-plus"></i></a></li>
 	</ul>
 </nav>
