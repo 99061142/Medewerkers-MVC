@@ -1,58 +1,63 @@
 <?php
-require(ROOT . "model/EmployeeModel.php");
+    require(ROOT . "model/EmployeeModel.php");
 
 
 
 
 
-function index()
-{
-    //1. Haal alle medewerkers op uit de database (via de model) en sla deze op in een variable
-    $employees = getAllEmployees();
-    //2. Geef een view weer en geef de variable met medewerkers hieraan mee
-    render('employee/index', $employees);
-}
+    function index()
+    {
+        //1. Haal alle medewerkers op uit de database (via de model) en sla deze op in een variable
+        $employees = getAllEmployees();
+        //2. Geef een view weer en geef de variable met medewerkers hieraan mee
+        render('employee/index', $employees);
+    }
 
-function create(){
-    //1. Geef een view weer waarin een formulier staat voor het aanmaken van een medewerker
+    function create(){
+        //1. Geef een view weer waarin een formulier staat voor het aanmaken van een medewerker
 
-}
+    }
 
-function store(){
-    //1. Maak een nieuwe medewerker aan met de data uit het formulier en sla deze op in de database
+    function store(){
+        //1. Maak een nieuwe medewerker aan met de data uit het formulier en sla deze op in de database
 
-    //2. Bouw een url op en redirect hierheen
+        //2. Bouw een url op en redirect hierheen
 
-}
+    }
 
-function edit($id){
-    //1. Haal een medewerker op met een specifiek id en sla deze op in een variable
-    $employee = getEmployee($id);
+    function edit($id){
+        //1. Haal een medewerker op met een specifiek id en sla deze op in een variable
+        $employee = getEmployee($id);
 
-    //2. Geef een view weer voor het updaten en geef de variable met medewerker hieraan mee
-    render("employee/update", $employee);
-}
+        //2. Geef een view weer voor het updaten en geef de variable met medewerker hieraan mee
+        render("employee/update", $employee);
+    }
 
-function update(){
-    //1. Update een bestaand persoon met de data uit het formulier en sla deze op in de database
-    $updateInformation = $_POST;
+    function update(){
+        //1. Update een bestaand persoon met de data uit het formulier en sla deze op in de database
+        $updateInformation = $_POST;
 
-    updateEmployee($updateInformation);
-    //2. Bouw een url en redirect hierheen
+        updateEmployee($updateInformation);
+        //2. Bouw een url en redirect hierheen
 
-}
+    }
 
-function delete($id){
-    //1. Haal een medewerker op met een specifiek id en sla deze op in een variable
+    function delete($id){
+        //1. Haal een medewerker op met een specifiek id en sla deze op in een variable
+        $employee = getEmployee($id);
+        //2. Geef een view weer voor het verwijderen en geef de variable met medewerker hieraan mee
+        render("employee/delete", $employee);
+    }
 
-    //2. Geef een view weer voor het verwijderen en geef de variable met medewerker hieraan mee
+    function destroy($id){
+        $conn=openDatabaseConnection();
+        
+        //1. Delete een medewerker uit de database
+        $query = $conn->prepare("DELETE FROM employees WHERE id= :id");
+        $query->bindParam(":id", $id);
+        $query->execute(); 
 
-}
-
-function destroy($id){
-    //1. Delete een medewerker uit de database
-
-	//2. Bouw een url en redirect hierheen
-    
-}
+    	//2. Bouw een url en redirect hierheen
+        header("location:" . URL);
+    }
 ?>
