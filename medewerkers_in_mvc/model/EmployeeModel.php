@@ -18,21 +18,20 @@
            // In dit geval is het mogelijk dat we meedere medewerkers ophalen, daarom gebruiken we
            // hier de fetchAll functie.
            $result = $stmt->fetchAll();
-
        }
        // Vang de foutmelding af
        catch(PDOException $e){
            // Zet de foutmelding op het scherm
            echo "Connection failed: " . $e->getMessage();
        }
-
        // Maak de database verbinding leeg. Dit zorgt ervoor dat het geheugen
        // van de server opgeschoond blijft
        $conn = null;
-
        // Geef het resultaat terug aan de controller
        return $result;
     }
+
+
 
 
     function getEmployee($id){
@@ -54,7 +53,6 @@
             // In dit geval weten we zeker dat we maar 1 medewerker op halen (de where clause), 
             //daarom gebruiken we hier de fetch functie.
             $result = $stmt->fetch();
-     
         }
         catch(PDOException $e){
             echo "Connection failed: " . $e->getMessage();
@@ -62,31 +60,37 @@
         // Maak de database verbinding leeg. Dit zorgt ervoor dat het geheugen
         // van de server opgeschoond blijft
         $conn = null;
-     
         // Geef het resultaat terug aan de controller
         return $result;
      }
 
 
 
-
+    // Maak hier de code om een medewerker toe te voegen
     function createEmployee($data){
-        // Maak hier de code om een medewerker toe te voegen
-        var_dump($data);
+        // Variables
+        $inputAmount = count($data);
+        $array = [];
 
 
+        // The input of the user gets cleaned up
+        for($i = 0; $i < 2; $i++){
+            $inputName = "input" . ($i + 1);
+            array_push($array, $data[$inputName]);
 
 
-        if(strlen($data["name"]) > 10 || !$data["name"]){
-            $data["name"] = "[name]";
+            $array[$i] = trim($array[$i]);
+            $array[$i] = stripslashes($array[$i]);
+            $array[$i] = htmlspecialchars($array[$i]); 
         }
 
-
-        if(strlen($data["age"]) > 3 || !$data["age"]){
-            $data["age"] = "[age]";
+    
+        if(!$array[0]){
+            $array[0] = "[name]";
         }
-
-
+        if(!$array[1]){
+            $array[1] = "[age]";
+        }
 
 
         try {
@@ -96,8 +100,8 @@
             $stmt = $conn->prepare("INSERT INTO employees (name, age) VALUES (:name, :age)");
 
             // Update the values that are send with it
-            $stmt->bindParam(":name", $data["name"]);
-            $stmt->bindParam(":age", $data["age"]);
+            $stmt->bindParam(":name", $array[0]);
+            $stmt->bindParam(":age", $array[1]);
 
 
             $stmt->execute();
@@ -106,39 +110,41 @@
             echo "Connection failed: " . $e->getMessage();
         }
         $connection = null; 
-     }
+    }
 
 
 
 
-     function updateEmployee($data){
-        // Maak hier de code om een medewerker te bewerken
-
-
-        // Employee information
+    // Maak hier de code om een medewerker te bewerken
+    function updateEmployee($data){
+        // Variables
         $id = $data["id"];
+        $array = [];
+
+
+        // Values
         $employee = getEmployee($id);
+        $inputAmount = count($data);
 
 
-        // Get the previous information
-        if(!$_POST["name"]){
-            $data["name"] = $employee["name"];
+
+        // All the inputs gets cleaned up
+        for($i = 0; $i < 2; $i++){
+            $inputName = "input" . ($i + 1);
+            array_push($array, $data[$inputName]);
+
+
+            $array[$i] = trim($array[$i]);
+            $array[$i] = stripslashes($array[$i]);
+            $array[$i] = htmlspecialchars($array[$i]);  
         }
 
-        if(!$_POST["age"]){
-            $data["age"] = $employee["age"];
+        // When the input is empty, the array puts the previous information about the employee in the array
+        if(!$array[0]){
+            $array[0] = $employee["name"];
         }
-
-
-        // Cant make the employees name longer than 10 characters
-        if(strlen($data["name"]) > 10){
-            $data["name"] = "[name]";
-        }
-
-
-        // The employees age cant be over 3 characters
-        if(strlen($data["age"]) > 3){
-            $data["age"] = "[age]";
+        if(!$array[1]){
+            $array[1] = $employee["age"];
         }
 
 
@@ -151,8 +157,8 @@
 
             // Update the values that are send with it
             $stmt->bindParam(":id", $id);
-            $stmt->bindParam(":name", $data["name"]);
-            $stmt->bindParam(":age", $data["age"]);
+            $stmt->bindParam(":name", $array[0]);
+            $stmt->bindParam(":age", $array[1]);
 
 
             $stmt->execute();
@@ -166,16 +172,21 @@
 
 
 
+    // Maak hier de code om een medewerker te verwijderen
     function deleteEmployee($id){
-        // Maak hier de code om een medewerker te verwijderen
-        $conn=openDatabaseConnection();
-        
-        //1. Delete een medewerker uit de database
-        $query = $conn->prepare("DELETE FROM employees WHERE id= :id");
-        $query->bindParam(":id", $id);
-        $query->execute(); 
+        try{
+            $conn=openDatabaseConnection();
+            
+            //1. Delete een medewerker uit de database
+            $query = $conn->prepare("DELETE FROM employees WHERE id= :id");
+            $query->bindParam(":id", $id);
+            $query->execute(); 
 
-        //2. Bouw een url en redirect hierheen
-        header("location:" . URL);
+            //2. Bouw een url en redirect hierheen
+            header("location:" . URL);
+        }catch(PDOException $e){ 
+            echo "Connection failed: " . $e->getMessage();
+        }
+        $conn = null;
     }
 ?>

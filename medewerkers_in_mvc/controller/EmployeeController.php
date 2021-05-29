@@ -4,9 +4,7 @@
 
 
 
-
-    function index()
-    {
+    function index(){
         //1. Haal alle medewerkers op uit de database (via de model) en sla deze op in een variable
         $employees = getAllEmployees();
         //2. Geef een view weer en geef de variable met medewerkers hieraan mee
@@ -22,7 +20,6 @@
         //1. Maak een nieuwe medewerker aan met de data uit het formulier en sla deze op in de database
         createEmployee($_POST);
         //2. Bouw een url op en redirect hierheen
-
     }
 
     function edit($id){
@@ -36,7 +33,6 @@
         //1. Update een bestaand persoon met de data uit het formulier en sla deze op in de database
         updateEmployee($_POST);
         //2. Bouw een url en redirect hierheen
-
     }
 
     function delete($id){
@@ -50,6 +46,5 @@
         //1. Delete een medewerker uit de database
         deleteEmployee($id);
         //2. Bouw een url en redirect hierheen
-          
     }
 ?>
