@@ -84,7 +84,6 @@
             $array[$i] = htmlspecialchars($array[$i]); 
         }
 
-    
         if(!$array[0]){
             $array[0] = "[name]";
         }
@@ -109,7 +108,7 @@
         }catch(PDOException $e){ 
             echo "Connection failed: " . $e->getMessage();
         }
-        $connection = null; 
+        $conn = null; 
     }
 
 
@@ -140,6 +139,7 @@
         }
 
         // When the input is empty, the array puts the previous information about the employee in the array
+
         if(!$array[0]){
             $array[0] = $employee["name"];
         }
