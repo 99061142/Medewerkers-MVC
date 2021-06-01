@@ -104,7 +104,6 @@
 
 
             $stmt->execute();
-            header("location:" . URL);
         }catch(PDOException $e){ 
             echo "Connection failed: " . $e->getMessage();
         }
@@ -162,7 +161,6 @@
 
 
             $stmt->execute();
-            header("location:" . URL);
         }catch(PDOException $e){ 
             echo "Connection failed: " . $e->getMessage();
         }
@@ -183,7 +181,6 @@
             $query->execute(); 
 
             //2. Bouw een url en redirect hierheen
-            header("location:" . URL);
         }catch(PDOException $e){ 
             echo "Connection failed: " . $e->getMessage();
         }
