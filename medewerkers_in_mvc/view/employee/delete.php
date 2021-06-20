@@ -1,18 +1,7 @@
-<?php
-	// maak een bevestig pagina voor het verwijderen van een mededwerker
-	$id = $data["id"];
-
-	if(isset($_POST["delete"])){
-		destroy($id);
-	}
-	else if(isset($_POST["back"])){
-		header("location:" . URL);
-	}
-?>
-	
-
 <h1>Weet u zeker dat u <?= $data["name"] ?> wilt verwijderen?</h1>
-<form name="delete" method="post">
-	<input type="submit" name="delete" value="ja">
-	<input type="submit" name="back" value="nee">
-</form>
+<ul>
+	<li class="list-unstyled">
+		<a href="<?= URL ?>employee/destroy/<?= $data["id"] ?>" class="btn btn-primary">Ja</a>
+		<a href="<?= URL ?>" class="btn btn-primary">Nee</a>
+	</li>
+</ul>
