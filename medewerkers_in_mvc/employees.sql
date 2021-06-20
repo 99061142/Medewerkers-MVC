@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.15.9
--- https://www.phpmyadmin.net
+-- version 4.9.1
+-- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Gegenereerd op: 14 mei 2019 om 08:51
--- Serverversie: 5.6.37
--- PHP-versie: 7.1.8
+-- Gegenereerd op: 20 jun 2021 om 17:14
+-- Serverversie: 8.0.18
+-- PHP-versie: 7.3.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -17,38 +19,27 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `medewerkers`
+-- Database: `employees`
 --
 
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `medewerkers`
+-- Tabelstructuur voor tabel `employees`
 --
 
-CREATE TABLE IF NOT EXISTS `employees` (
+CREATE TABLE `employees` (
   `id` int(11) NOT NULL,
-  `name` varchar(60) NOT NULL,
-  `age` tinyint(3) unsigned NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
-
---
--- Gegevens worden geëxporteerd voor tabel `medewerkers`
---
-
-INSERT INTO `employees` (`id`, `name`, `age`) VALUES
-(1, 'Karel', 12),
-(2, 'Martijn', 17),
-(3, 'Kees', 53),
-(4, 'Frits', 54),
-(5, 'Bas', 12);
+  `name` tinytext CHARACTER SET utf8 COLLATE utf8_general_ci,
+  `age` text CHARACTER SET utf8 COLLATE utf8_general_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Indexen voor geëxporteerde tabellen
 --
 
 --
--- Indexen voor tabel `medewerkers`
+-- Indexen voor tabel `employees`
 --
 ALTER TABLE `employees`
   ADD PRIMARY KEY (`id`);
@@ -58,10 +49,12 @@ ALTER TABLE `employees`
 --
 
 --
--- AUTO_INCREMENT voor een tabel `medewerkers`
+-- AUTO_INCREMENT voor een tabel `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
